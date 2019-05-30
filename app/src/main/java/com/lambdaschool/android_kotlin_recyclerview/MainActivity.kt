@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.parse
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,12 +13,35 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val superheros:SuperHero= Json.parse(SuperHero.serializer(),superHeroHardCoded)
-        Log.i("${this::class.simpleName}", "${this::getLocalClassName.javaClass.enclosingMethod.name} - ${Json.stringify(SuperHero.serializer(),superheros)}")
+        var classNameReflection: String? = this::class.simpleName
+        var methodNameReflection: String? = this::getLocalClassName.javaClass.enclosingMethod.name
+
+        Thread(Runnable {
+            HisNetworkAdapter.httpGetRequest("https://www.superheroapi.com/api.php/10220044976853570/644",
+                object : HisNetworkAdapter.NetworkHttpCallback {
+                    override fun returnResult(success: Boolean?, result: String) {
+
+                        if (success!!) {
+                            val superheros: SuperHero = Json.nonstrict.parse(SuperHero.serializer(), result)
+                            Log.i(
+                                "$classNameReflection",
+                                "$methodNameReflection - ${Json.stringify(SuperHero.serializer(), superheros)}"
+                            )
+                        }
+                    }
+
+                })
+        }).start()
+
+        /*val superHerosHardCodedObject: SuperHero = Json.parse(SuperHero.serializer(), superHeroHardCodedString)
+        Log.i(
+            "$classNameReflection",
+            "$methodNameReflection - ${Json.stringify(SuperHero.serializer(), superHerosHardCodedObject)}"
+        )*/
 
     }
 
-    val superHeroHardCoded: String = ("{\n" +
+    val superHeroHardCodedString: String = ("{\n" +
             "   \"response\":\"success\",\n" +
             "   \"id\":\"644\",\n" +
             "   \"name\":\"Superman\",\n" +

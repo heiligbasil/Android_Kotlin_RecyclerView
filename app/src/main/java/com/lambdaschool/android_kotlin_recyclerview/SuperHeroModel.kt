@@ -1,12 +1,14 @@
 package com.lambdaschool.android_kotlin_recyclerview
 
-
+import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class SuperHero(
-    val response: String?,
+    @Optional val response: String?,
+    //@SerialName("results-for") val results_for: String?,
+    //val results: List<SuperHero>?,
     val id: String?,
     val name: String?,
     val powerstats: Powerstats?,
@@ -15,12 +17,6 @@ data class SuperHero(
     val work: Work?,
     val connections: Connections?,
     val image: Image?
-)
-
-@Serializable
-data class Base(
-    @SerialName("results-for") val results_for: String?,
-    val results: List<SuperHero>?
 )
 
 @Serializable
@@ -38,12 +34,8 @@ data class Biography(
     @SerialName("full-name") val full_name: String?,
     @SerialName("alter-egos") val alter_egos: String?,
     val aliases: List<String>?,
-    @SerialName(
-        "place-of-birth"
-    ) val place_of_birth: String?,
-    @SerialName(
-        "first-appearance"
-    ) val first_appearance: String?,
+    @SerialName("place-of-birth") val place_of_birth: String?,
+    @SerialName("first-appearance") val first_appearance: String?,
     val publisher: String?,
     val alignment: String?
 )
