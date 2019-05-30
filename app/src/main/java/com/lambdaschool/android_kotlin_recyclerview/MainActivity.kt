@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val superheros:SuperHero= Json.parse(SuperHero.serializer(),superHeroHardCoded)
-        Log.i("${this::getLocalClassName}", "${this::getLocalClassName.javaClass.enclosingMethod.name} - ${Json.stringify(SuperHero.serializer(),superheros)}")
+        Log.i("${this::class.simpleName}", "${this::getLocalClassName.javaClass.enclosingMethod.name} - ${Json.stringify(SuperHero.serializer(),superheros)}")
 
     }
 
