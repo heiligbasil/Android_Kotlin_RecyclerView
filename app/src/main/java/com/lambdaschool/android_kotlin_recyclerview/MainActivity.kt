@@ -1,10 +1,12 @@
 package com.lambdaschool.android_kotlin_recyclerview
 
+import android.app.Activity
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.serialization.UnstableDefault
-import kotlinx.serialization.json.Json
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,7 +18,16 @@ class MainActivity : AppCompatActivity() {
         var classNameReflection: String? = this::class.simpleName
         var methodNameReflection: String? = this::getLocalClassName.javaClass.enclosingMethod.name
 
-        Thread(Runnable {
+        val viewAdapter = SuperHeroRvAdapter(this)
+        (this as Activity).runOnUiThread {
+            recycler_view.apply {
+                setHasFixedSize(false)
+                layoutManager = LinearLayoutManager(applicationContext)
+                adapter = viewAdapter
+            }
+        }
+
+/*        Thread(Runnable {
             HisNetworkAdapter.httpGetRequest("https://www.superheroapi.com/api.php/10220044976853570/644",
                 object : HisNetworkAdapter.NetworkHttpCallback {
                     override fun returnResult(success: Boolean?, result: String) {
@@ -31,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 })
-        }).start()
+        }).start()*/
 
         /*val superHerosHardCodedObject: SuperHero = Json.parse(SuperHero.serializer(), superHeroHardCodedString)
         Log.i(
