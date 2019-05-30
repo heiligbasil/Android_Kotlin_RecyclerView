@@ -46,8 +46,8 @@ class SuperHeroRvAdapter(val activity: Activity) : RecyclerView.Adapter<Recycler
     }
 
     init {
-        for (i in 1..50 )
-        getList(i)
+        //for (i in 1..20 )
+        getList(644)
     }
 
     open class FooterViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -58,7 +58,8 @@ class SuperHeroRvAdapter(val activity: Activity) : RecyclerView.Adapter<Recycler
         val adapter = this
 
         Thread(Runnable {
-            HisNetworkAdapter.httpGetRequest("https://www.superheroapi.com/api.php/10220044976853570/$id",
+            HisNetworkAdapter.httpGetRequest("https://www.superheroapi.com/api.php/10220044976853570/search/woman",
+            //HisNetworkAdapter.httpGetRequest("https://www.superheroapi.com/api.php/10220044976853570/$id",
                 object : HisNetworkAdapter.NetworkHttpCallback {
                     override fun returnResult(success: Boolean?, result: String) {
                         val oldData = mutableListOf<SuperHero>()
