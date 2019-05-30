@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SuperHero(
+    val response: String? = "",
     val id: String? = "",
     val name: String? = "",
     val powerstats: Powerstats?,
@@ -18,7 +19,6 @@ data class SuperHero(
 
 @Serializable
 data class Base(
-    val response: String? = "",
     @SerialName("results-for") val results_for: String? = "",
     val results: List<SuperHero>?
 )
