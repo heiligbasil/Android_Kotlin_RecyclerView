@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Base(
+data class SuperHeroResult(
     val response: String?="",
     @SerialName("results-for") val results_for: String?="",
     val results: List<SuperHero>?= listOf()

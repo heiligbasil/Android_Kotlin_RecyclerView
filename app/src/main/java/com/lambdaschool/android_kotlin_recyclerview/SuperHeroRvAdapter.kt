@@ -65,8 +65,8 @@ class SuperHeroRvAdapter(val activity: Activity) : RecyclerView.Adapter<Recycler
                         val oldData = mutableListOf<SuperHero>()
                         oldData.addAll(data)
 
-                        val superheros = Json.parse(SuperHero.serializer(), result)
-                        data.add(superheros)
+                        val superheros: SuperHeroResult = Json.nonstrict.parse(SuperHeroResult.serializer(), result)
+                        data.addAll(superheros.results)
 
                         val diffResult = DiffUtil.calculateDiff(CharacterDiffTool(oldData, data))
                         activity.runOnUiThread {
