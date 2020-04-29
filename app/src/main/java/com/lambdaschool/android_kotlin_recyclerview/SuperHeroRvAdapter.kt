@@ -15,9 +15,9 @@ import kotlinx.serialization.json.Json
 
 class CharacterDiffTool(private val oldData: List<SuperHero>, private val newData: List<SuperHero>) :
     DiffUtil.Callback() {
-    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-        return oldData[oldItemPosition].id == newData[newItemPosition].id
-    }
+
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
+        oldData[oldItemPosition].id == newData[newItemPosition].id
 
     override fun getOldListSize(): Int = oldData.size
 
@@ -58,17 +58,18 @@ class SuperHeroRvAdapter(val activity: Activity) : RecyclerView.Adapter<Recycler
         val adapter = this
 
         Thread(Runnable {
-            HisNetworkAdapter.httpGetRequest("https://www.superheroapi.com/api.php/10220044976853570/search/woman",
-            //HisNetworkAdapter.httpGetRequest("https://www.superheroapi.com/api.php/10220044976853570/$id",
+            HisNetworkAdapter.httpGetRequest("https://www.superheroapi.com/api.php/10220044976853570/search/man",
+                //HisNetworkAdapter.httpGetRequest("https://www.superheroapi.com/api.php/10220044976853570/$id",
                 object : HisNetworkAdapter.NetworkHttpCallback {
                     override fun returnResult(success: Boolean?, result: String) {
                         val oldData = mutableListOf<SuperHero>()
                         oldData.addAll(data)
 
                         val superheros: SuperHeroResult = Json.nonstrict.parse(SuperHeroResult.serializer(), result)
-                        data.addAll(superheros.results)
+                        data.addAll(superheros.results.orEmpty())
 
                         val diffResult = DiffUtil.calculateDiff(CharacterDiffTool(oldData, data))
+
                         activity.runOnUiThread {
                             if (oldData.size == 0) {
                                 notifyDataSetChanged()
